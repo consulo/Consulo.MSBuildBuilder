@@ -1,0 +1,3 @@
+Initial code from MonoDevelop
+
+https://github.com/mono/monodevelop/tree/master/main/src/core/MonoDevelop.Projects.Formats.MSBuild/MonoDevelop.Projects.MSBuild
