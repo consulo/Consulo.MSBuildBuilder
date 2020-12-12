@@ -26,7 +26,7 @@
 
 using System;
 using System.Text;
-using MonoDevelop.Core.Execution;
+using MonoDevelop.Projects.MSBuild;
 
 namespace MonoDevelop.Projects.MSBuild
 {

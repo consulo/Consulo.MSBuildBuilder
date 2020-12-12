@@ -7,8 +7,10 @@ using System.Collections;
 using System.Reflection;
 using System.Reflection.Emit;
 using System.Runtime.InteropServices;
+using Consulo.MSBuildBuilder.IO;
 
-namespace MonoDevelop.Core.Execution {
+namespace MonoDevelop.Projects.MSBuild
+{
 	public class BinaryMessage
 	{
 		enum TypeCode
@@ -166,7 +168,7 @@ namespace MonoDevelop.Core.Execution {
 		public void Write(Stream outStream)
 		{
 			MemoryStream s = new MemoryStream();
-			BinaryWriter bw = new BinaryWriter(s);
+			SimpleBinaryWriter bw = new SimpleBinaryWriter(s);
 			bw.Write(Id);
 			bw.Write(Name ?? "");
 			bw.Write(Target ?? "");
@@ -177,7 +179,7 @@ namespace MonoDevelop.Core.Execution {
 				WriteValue(bw, arg.Value);
 			}
 			var data = s.ToArray();
-			bw = new BinaryWriter(outStream);
+			bw = new SimpleBinaryWriter(outStream);
 			bw.Write(data.Length);
 			bw.Write(data);
 		}
@@ -424,7 +426,7 @@ namespace MonoDevelop.Core.Execution {
 
 		public static BinaryMessage Read(Stream s)
 		{
-			BinaryReader br = new BinaryReader(s);
+			BinaryReader br = new SimpleBinaryReader(s);
 			br.ReadInt32(); // length
 
 			BinaryMessage msg = new BinaryMessage();

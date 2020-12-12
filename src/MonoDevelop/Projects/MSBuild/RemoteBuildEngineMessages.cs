@@ -25,7 +25,6 @@
 // THE SOFTWARE.
 using System;
 using System.Collections.Generic;
-using MonoDevelop.Core.Execution;
 
 namespace MonoDevelop.Projects.MSBuild
 {

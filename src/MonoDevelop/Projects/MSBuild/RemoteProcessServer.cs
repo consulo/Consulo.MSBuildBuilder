@@ -31,7 +31,7 @@ using System.Threading;
 using System.Reflection;
 using System.Linq;
 
-namespace MonoDevelop.Core.Execution
+namespace MonoDevelop.Projects.MSBuild
 {
 	public class RemoteProcessServer
 	{

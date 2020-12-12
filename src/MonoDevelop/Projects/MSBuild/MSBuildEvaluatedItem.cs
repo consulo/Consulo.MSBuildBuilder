@@ -1,5 +1,5 @@
 //
-// MSBuildResult.cs
+// MSBuildEvaluatedItem.cs
 //
 // Author:
 //       Michael Hutchinson <m.j.hutchinson@gmail.com>
@@ -26,44 +26,30 @@
 
 using System;
 using System.Collections.Generic;
-using MonoDevelop.Core.Execution;
 
 namespace MonoDevelop.Projects.MSBuild
 {
 	[MessageDataTypeAttribute]
-	class MSBuildResult
+	class MSBuildEvaluatedItem
 	{
-		[MessageDataProperty]
-		MSBuildTargetResult[] errors;
-
-		[MessageDataProperty]
-		Dictionary<string,string> properties;
-
-		[MessageDataProperty]
-		Dictionary<string,MSBuildEvaluatedItem[]> items;
-
-		internal MSBuildResult ()
+		public MSBuildEvaluatedItem ()
 		{
 		}
 
-		public MSBuildResult (MSBuildTargetResult[] errors)
+		public MSBuildEvaluatedItem (string name, string itemSpec)
 		{
-			this.errors = errors;
-			this.properties = new Dictionary<string,string> ();
-			this.items = new Dictionary<string,MSBuildEvaluatedItem[]> ();
+			Name = name;
+			ItemSpec = itemSpec;
+			Metadata = new Dictionary<string, string> ();
 		}
 
-		public MSBuildTargetResult[] Errors {
-			get { return errors; }
-		}
+		[MessageDataProperty]
+		public Dictionary<string,string> Metadata { get; set; }
 
-		public Dictionary<string,MSBuildEvaluatedItem[]> Items {
-			get { return items; }
-		}
+		[MessageDataProperty]
+		public string ItemSpec { get; set; }
 
-		public Dictionary<string, string> Properties {
-			get { return properties; }
-		}
+		[MessageDataProperty]
+		public string Name { get; set; }
 	}
-
 }
