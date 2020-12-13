@@ -242,5 +242,25 @@ namespace MonoDevelop.Projects.MSBuild
 	class EndBuildRequest : BinaryMessage
 	{
 	}
+
+	[MessageDataType]
+	class GetTargetsRequest : BinaryMessage
+	{
+		[MessageDataProperty]
+		public int ProjectId { get; set; }
+
+		[MessageDataProperty]
+		public int TaskId { get; set; }
+
+		[MessageDataProperty]
+		public ProjectConfigurationInfo[] Configurations { get; set; }
+	}
+
+	[MessageDataType]
+	class GetTargetsResponse : BinaryMessage
+	{
+		[MessageDataProperty]
+		public string[] Targets;
+	}
 }
 

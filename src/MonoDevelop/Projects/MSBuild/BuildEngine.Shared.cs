@@ -32,7 +32,6 @@ using System.Globalization;
 using System.IO;
 
 //this is the builder for the deprecated build engine API
-using MonoDevelop.Projects.MSBuild;
 using System.Net.Configuration;
 using System.Diagnostics;
 using System.Reflection;
@@ -204,6 +203,18 @@ namespace MonoDevelop.Projects.MSBuild
 				return new RunProjectResponse { Result = res };
 			}
 			return msg.CreateResponse ();
+		}
+
+		[MessageHandler]
+		public BinaryMessage GetTargets(GetTargetsRequest msg)
+		{
+			var pb = GetProject(msg.ProjectId);
+			if(pb != null)
+			{
+				var targets = pb.GetTargets(msg.TaskId, msg.Configurations);
+				return new GetTargetsResponse {Targets = targets};
+			}
+			return msg.CreateResponse();
 		}
 
 		[MessageHandler]

@@ -53,6 +53,31 @@ namespace MonoDevelop.Projects.MSBuild
 			Refresh ();
 		}
 
+		public string[] GetTargets(int taskId, ProjectConfigurationInfo[] configurations)
+		{
+			List<string> result = new List<string>();
+
+			BuildEngine.RunSTA(taskId, delegate
+			{
+				try
+				{
+					Project project = SetupProject(configurations);
+
+					var pi = project.CreateProjectInstance();
+
+					foreach (KeyValuePair<string, ProjectTargetInstance> target in pi.Targets)
+					{
+						result.Add(target.Key);
+					}
+				}
+				catch(Microsoft.Build.Exceptions.InvalidProjectFileException ex)
+				{
+					throw ex;
+				}
+			});
+			return result.ToArray();
+		}
+
 		public MSBuildResult Run (
 			ProjectConfigurationInfo[] configurations, IEngineLogWriter logWriter, MSBuildVerbosity verbosity, string binLogFilePath,
 			string[] runTargets, string[] evaluateItems, string[] evaluateProperties, Dictionary<string,string> globalProperties, int taskId)
@@ -135,7 +160,7 @@ namespace MonoDevelop.Projects.MSBuild
 						buildEngine.EndProjectSessionBuild ();
 					else
 						loggerAdapter.Dispose ();
-					
+
 					if (project != null && globalProperties != null) {
 						foreach (var p in globalProperties)
 							project.RemoveGlobalProperty (p.Key);
@@ -173,7 +198,7 @@ namespace MonoDevelop.Projects.MSBuild
 		}
 
 		Project ConfigureProject (string file, string configuration, string platform, string slnConfigContents)
-		{			
+		{
 			bool firstConfigure = false;
 			var p = engine.GetLoadedProjects (file).FirstOrDefault ();
 			if (p == null) {
