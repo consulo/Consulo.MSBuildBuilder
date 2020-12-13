@@ -37,7 +37,7 @@ using System.Runtime.CompilerServices;
 [assembly: AssemblyTrademark("")]
 [assembly: AssemblyCulture("")]
 
-[assembly: System.Reflection.AssemblyTitle ("Consylo MSBuild Builder")]
+[assembly: System.Reflection.AssemblyTitle ("Consulo MSBuild Builder")]
 
 // The assembly version has the format "{Major}.{Minor}.{Build}.{Revision}".
 // The form "{Major}.{Minor}.*" will automatically update the build and revision,
