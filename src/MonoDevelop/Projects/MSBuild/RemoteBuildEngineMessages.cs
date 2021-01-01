@@ -262,5 +262,35 @@ namespace MonoDevelop.Projects.MSBuild
 		[MessageDataProperty]
 		public string[] Targets;
 	}
+
+	[MessageDataType]
+	class GetProjectItemsRequest : BinaryMessage
+	{
+		[MessageDataProperty]
+		public int ProjectId { get; set; }
+
+		[MessageDataProperty]
+		public int TaskId { get; set; }
+
+		[MessageDataProperty]
+		public ProjectConfigurationInfo[] Configurations { get; set; }
+	}
+
+	[MessageDataType]
+	class ProjectItem
+	{
+		[MessageDataProperty]
+		public string ItemType { get; set; }
+
+		[MessageDataProperty]
+		public string EvaluatedInclude { get; set; }
+	}
+
+	[MessageDataType]
+	class GetProjectItemsResponse : BinaryMessage
+	{
+		[MessageDataProperty]
+		public ProjectItem[] Items { get; set;}
+	}
 }
 
