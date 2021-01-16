@@ -28,8 +28,8 @@ using System.IO;
 using System.Collections;
 using System.Runtime.Serialization.Formatters.Binary;
 using System.Runtime.Remoting;
-using System.Runtime.Remoting.Channels;
-using System.Runtime.Remoting.Channels.Tcp;
+//using System.Runtime.Remoting.Channels;
+//using System.Runtime.Remoting.Channels.Tcp;
 using System.Threading;
 using System.Diagnostics;
 using System.Reflection;
@@ -44,7 +44,8 @@ namespace MonoDevelop.Projects.MSBuild
 		public static void Main (string[] args)
 		{
 			// This is required for MSBuild to properly load the .exe.config configuration file for this executable.
-			Environment.SetEnvironmentVariable ("MSBUILD_EXE_PATH", typeof(MainClass).Assembly.Location);
+			//
+			//Environment.SetEnvironmentVariable ("MSBUILD_EXE_PATH", typeof(MainClass).Assembly.Location);
 
 			// Disable VBCSCompiler until it is reliable on mono. Currently leaves orphaned processes for VB projects taking up 100% CPU.
 			// https://github.com/mono/mono/issues/11939

@@ -32,7 +32,7 @@ using System.Globalization;
 using System.IO;
 
 //this is the builder for the deprecated build engine API
-using System.Net.Configuration;
+//using System.Net.Configuration;
 using System.Diagnostics;
 using System.Reflection;
 using System.Linq;

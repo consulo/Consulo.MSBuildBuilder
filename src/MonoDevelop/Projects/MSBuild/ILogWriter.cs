@@ -26,7 +26,7 @@
 
 using System;
 using System.IO;
-using System.Runtime.Remoting.Messaging;
+//using System.Runtime.Remoting.Messaging;
 
 namespace MonoDevelop.Projects.MSBuild
 {
