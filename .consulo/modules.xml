@@ -5,7 +5,7 @@
       <module name="Consulo.MSBuildBuilder" dirurl="file://$PROJECT_DIR$" current-layer="Default">
         <module-layer name="Default">
           <extension id="microsoft-csharp" unsafe-code="false" optimize-code="false" platform="ANY_CPU" custom-compiler-sdk-name="Roslyn 42.42.42.42424" />
-          <extension id="microsoft-dotnet" sdk-module-name="" sdk-name=".NET Framework 4.0 (windir) (predefined)" target="LIBRARY" debug="true" allow-source-roots="true" file-name="$ModuleName$.$TargetFileExt$" output-dir="$ModuleProductionOutputDirPath$" namespace-prefix="Consulo.MSBuildBuilder">
+          <extension id="microsoft-dotnet" sdk-module-name="" sdk-name=".NET Framework 4.0 (windir) (predefined)" target="EXECUTABLE" debug="true" allow-source-roots="true" file-name="$ModuleName$.$TargetFileExt$" output-dir="$ModuleProductionOutputDirPath$" namespace-prefix="Consulo.MSBuildBuilder">
             <define>DEBUG</define>
           </extension>
           <content url="file://$MODULE_DIR$">
