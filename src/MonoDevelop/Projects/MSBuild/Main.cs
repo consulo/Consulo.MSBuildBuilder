@@ -83,8 +83,8 @@ namespace MonoDevelop.Projects.MSBuild
 							"System.Reflection.Metadata"};
 
 				var asmName = new AssemblyName (args.Name);
-				if (!msbuildAssemblies.Any (n => string.Compare (n, asmName.Name, StringComparison.OrdinalIgnoreCase) == 0))
-					return null;
+				//if (!msbuildAssemblies.Any (n => string.Compare (n, asmName.Name, StringComparison.OrdinalIgnoreCase) == 0))
+				//	return null;
 
 				// Temporary workaround: System.Reflection.Metadata.dll is required in msbuildBinDir, but it is present only
 				// in $msbuildBinDir/Roslyn .
