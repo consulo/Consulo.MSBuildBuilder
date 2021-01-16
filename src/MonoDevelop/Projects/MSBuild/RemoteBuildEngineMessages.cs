@@ -292,5 +292,35 @@ namespace MonoDevelop.Projects.MSBuild
 		[MessageDataProperty]
 		public ProjectItem[] Items { get; set;}
 	}
+
+	[MessageDataType]
+	class Property
+	{
+		[MessageDataProperty]
+		public string Key { get; set; }
+
+		[MessageDataProperty]
+		public string Value { get; set; }
+	}
+
+	[MessageDataType]
+	class GetPropertiesRequest : BinaryMessage
+	{
+		[MessageDataProperty]
+		public int ProjectId { get; set; }
+
+		[MessageDataProperty]
+		public int TaskId { get; set; }
+
+		[MessageDataProperty]
+		public ProjectConfigurationInfo[] Configurations { get; set; }
+	}
+
+	[MessageDataType]
+	class GetPropertiesResponse : BinaryMessage
+	{
+		[MessageDataProperty]
+		public Property[] Properties { get; set; }
+	}
 }
 

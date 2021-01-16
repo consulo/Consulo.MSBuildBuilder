@@ -233,6 +233,21 @@ namespace MonoDevelop.Projects.MSBuild
 		}
 
 		[MessageHandler]
+		public BinaryMessage GetProperties(GetPropertiesRequest msg)
+		{
+			var pb = GetProject(msg.ProjectId);
+			if (pb != null)
+			{
+				var items = pb.GetProperties(msg.TaskId, msg.Configurations);
+				return new GetPropertiesResponse()
+				{
+					Properties = items
+				};
+			}
+			return msg.CreateResponse();
+		}
+
+		[MessageHandler]
 		public BinaryMessage BeginBuild (BeginBuildRequest msg)
 		{
 			var logger = msg.LogWriterId != -1 ? (IEngineLogWriter)new LogWriter (msg.LogWriterId, msg.EnabledLogEvents) : (IEngineLogWriter)new NullLogWriter ();

@@ -78,6 +78,33 @@ namespace MonoDevelop.Projects.MSBuild
 			return result.ToArray();
 		}
 
+		public Property[] GetProperties(int taskId, ProjectConfigurationInfo[] configurations)
+		{
+			List<Property> result = new List<Property>();
+
+			BuildEngine.RunSTA(taskId, delegate
+			{
+				try
+				{
+					Project project = SetupProject(configurations);
+
+					foreach (var item in project.Properties)
+					{
+						result.Add(new Property
+						{
+							Key = item.Name,
+							Value = item.EvaluatedValue
+						});
+					}
+				}
+				catch (Microsoft.Build.Exceptions.InvalidProjectFileException ex)
+				{
+					throw ex;
+				}
+			});
+			return result.ToArray();
+		}
+
 		public ProjectItem[] GetProjectItems(int taskId, ProjectConfigurationInfo[] configurations)
 		{
 			List<ProjectItem> result = new List<ProjectItem>();
