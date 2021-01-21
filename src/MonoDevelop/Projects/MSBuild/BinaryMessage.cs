@@ -8,6 +8,7 @@ using System.Reflection;
 using System.Reflection.Emit;
 using System.Runtime.InteropServices;
 using Consulo.MSBuildBuilder.IO;
+using Consulo.MSBuildBuilder.Util;
 
 namespace MonoDevelop.Projects.MSBuild
 {
@@ -508,39 +509,39 @@ namespace MonoDevelop.Projects.MSBuild
 
 			public void Fill(Func<object> fill)
 			{
-				(bool, int []) res;
+				Pair<bool, int []> res;
 				while((res = TryMoveNext()).Item1)
 				{
 					arr.SetValue(fill(), res.Item2);
 				}
 			}
 
-			public (bool, int []) TryMoveNext()
+			public Pair<bool, int []> TryMoveNext()
 			{
 				return TryMoveNextInternal(indices.Length - 1);
 			}
 
-			(bool, int []) TryMoveNextInternal(int lastRank)
+			Pair<bool, int[]> TryMoveNextInternal(int lastRank)
 			{
 				if(lastRank == -1)
-					return (false, indices);
+					return Pair<bool, int[]>.Of(false, indices);
 
 				if(lengths[lastRank] != 0)
 				{
 					if(first)
 					{
 						first = false;
-						return (true, indices);
+						return Pair<bool, int[]>.Of(true, indices);
 					}
 
 					indices[lastRank]++;
 					// We reached the last element, try bumping previous dimension
 					if(indices[lastRank] != lengths[lastRank])
-						return (true, indices);
+						return Pair<bool, int[]>.Of(true, indices);
 
 					// We're done.
 					if(lastRank == 0)
-						return (false, indices);
+						return Pair<bool, int[]>.Of(false, indices);
 
 					for(int i = lastRank; i < indices.Length; ++i)
 						indices[i] = 0;

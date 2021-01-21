@@ -2,7 +2,7 @@
 <project>
   <component name="ModuleManager">
     <modules>
-      <module name="Consulo.MSBuildBuilder" dirurl="file://$PROJECT_DIR$" current-layer="Default">
+      <module name="Consulo.MSBuildBuilder" dirurl="file://$PROJECT_DIR$" current-layer="Mono">
         <module-layer name="Default">
           <extension id="microsoft-csharp" unsafe-code="false" optimize-code="false" platform="ANY_CPU" custom-compiler-sdk-name="Roslyn 42.42.42.42424" />
           <extension id="microsoft-dotnet" sdk-module-name="" sdk-name=".NET Framework 4.0 (windir) (predefined)" target="EXECUTABLE" debug="true" allow-source-roots="true" file-name="$ModuleName$.$TargetFileExt$" output-dir="$ModuleProductionOutputDirPath$" namespace-prefix="Consulo.MSBuildBuilder">
@@ -32,6 +32,38 @@
             </library>
           </orderEntry>
           <orderEntry type="dot-net-library" name="System.Collections" />
+        </module-layer>
+        <module-layer name="Mono">
+          <extension id="mono-csharp" unsafe-code="false" language-version-name="_6_0" optimize-code="false" platform="ANY_CPU" />
+          <extension id="mono-dotnet" sdk-module-name="" sdk-name="Mono 4.6-api (predefined)" target="EXECUTABLE" debug="true" allow-source-roots="true" file-name="$ModuleName$.$TargetFileExt$" output-dir="$ModuleProductionOutputDirPath$" namespace-prefix="" main-type="MonoDevelop.Projects.MSBuild.MainClass">
+            <define>DEBUG</define>
+            <define>TRACE</define>
+          </extension>
+          <content url="file://$MODULE_DIR$">
+            <content-folder type="EXCLUDED" url="file://$MODULE_DIR$/.consulo" />
+            <content-folder type="PRODUCTION" url="file://$MODULE_DIR$/src" />
+          </content>
+          <orderEntry type="sourceFolder" />
+          <orderEntry type="dot-net-library" name="mscorlib" />
+          <orderEntry type="dot-net-library" name="System.Data" />
+          <orderEntry type="dot-net-library" name="System.Linq" />
+          <orderEntry type="dot-net-library" name="System.Core" />
+          <orderEntry type="dot-net-library" name="System.Xml" />
+          <orderEntry type="dot-net-library" name="System.Xml.ReaderWriter" />
+          <orderEntry type="dot-net-library" name="System.Net.Sockets" />
+          <orderEntry type="dot-net-library" name="System.Net" />
+          <orderEntry type="dot-net-library" name="System.Runtime.Remoting" />
+          <orderEntry type="dot-net-library" name="System.Collections" />
+          <orderEntry type="dot-net-library" name="System.Runtime" />
+          <orderEntry type="module-library">
+            <library>
+              <binaries>
+                <root url="file://$MODULE_DIR$/lib" />
+              </binaries>
+              <jarDirectory url="file://$MODULE_DIR$/lib" recursive="false" />
+            </library>
+          </orderEntry>
+          <orderEntry type="dot-net-library" name="System" />
         </module-layer>
       </module>
     </modules>
