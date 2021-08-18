@@ -327,7 +327,14 @@ namespace MonoDevelop.Projects.MSBuild
 
 					if (workThread == null) {
 						workThread = new Thread (STARunner);
-						workThread.SetApartmentState (ApartmentState.STA);
+						try
+						{
+							workThread.SetApartmentState(ApartmentState.STA);
+						}
+						catch
+						{
+							// it will throw exception on unsupported platform
+						}
 						workThread.IsBackground = true;
 						workThread.CurrentUICulture = uiCulture;
 						workThread.Start ();
