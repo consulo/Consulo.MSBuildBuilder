@@ -1,0 +1,86 @@
+name: build
+
+on:
+  push:
+    branches: [ "master" ]
+  pull_request:
+    branches: [ "master" ]
+  workflow_dispatch:
+
+jobs:
+  build:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+
+      - uses: actions/setup-dotnet@v4
+        with:
+          dotnet-version: |
+            3.1.x
+            8.0.x
+
+      - name: Publish (Framework net472)
+        run: dotnet publish -c Release -f net472 -o out/framework Consulo.MSBuildBuilder.csproj
+
+      - name: Publish (Core netcoreapp3.1)
+        run: dotnet publish -c Release -f netcoreapp3.1 -o out/core Consulo.MSBuildBuilder.csproj
+
+      - name: Package
+        run: |
+          set -euo pipefail
+          (cd out/framework && zip -r "$GITHUB_WORKSPACE/msbuildbuilder-framework.zip" .)
+          (cd out/core && zip -r "$GITHUB_WORKSPACE/msbuildbuilder-core.zip" .)
+          ls -la msbuildbuilder-*.zip
+
+      - uses: actions/upload-artifact@v4
+        with:
+          name: msbuildbuilder-zips
+          path: |
+            msbuildbuilder-framework.zip
+            msbuildbuilder-core.zip
+          if-no-files-found: error
+
+  publish:
+    needs: build
+    if: github.ref == 'refs/heads/master' && github.event_name == 'push'
+    runs-on: ubuntu-latest
+    concurrency:
+      group: binaries-publish
+      cancel-in-progress: false
+    steps:
+      - uses: actions/download-artifact@v4
+        with:
+          name: msbuildbuilder-zips
+          path: artifact
+
+      - name: Fan out to every os-arch dir in consulo/binaries
+        env:
+          CONSULO_BOT_TOKEN: ${{ secrets.CONSULO_BOT_TOKEN }}
+        run: |
+          set -euo pipefail
+          git clone "https://consulo-bot:${CONSULO_BOT_TOKEN}@github.com/consulo/binaries.git" binaries-repo
+          cd binaries-repo
+          git checkout master 2>/dev/null || git checkout --orphan master
+          git config user.name "consulo Bot"
+          git config user.email "consulo.bot@gmail.com"
+          # Copy both zips into every existing <os>-<arch>/ directory. The set
+          # is discovered dynamically so we don't have to update this workflow
+          # when a new target arch is added upstream.
+          COUNT=0
+          for dir in $(ls -d */ 2>/dev/null | sed 's|/$||' | grep -E '^(linux|macos|windows)-' || true); do
+              cp ../artifact/msbuildbuilder-framework.zip "$dir/"
+              cp ../artifact/msbuildbuilder-core.zip "$dir/"
+              COUNT=$((COUNT + 1))
+          done
+          if [ "$COUNT" = "0" ]; then
+              echo "::error::no <os>-<arch> directories found in binaries repo — run arch-producing workflows first"
+              exit 1
+          fi
+          echo "Deployed to $COUNT os-arch dirs."
+          git add -A
+          if git diff --cached --quiet; then
+            echo "No changes to commit"
+          else
+            git commit -m "Update msbuildbuilder from ${GITHUB_REPOSITORY}@${GITHUB_SHA::7}"
+            git push -u origin master
+          fi
